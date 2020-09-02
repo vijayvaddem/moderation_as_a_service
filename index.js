@@ -20,13 +20,16 @@ app.post("/event", async (req, res) => {
 
   //console.log("Incoming event received for moderation:", type);
   console.log("Incoming data received for moderation:", data);
+  console.log("Incoming event type for moderation:", type);
 
   if (type === "commentCreated") {
     const status = data.commentText.includes("orange")
       ? "rejected"
       : "approved";
 
-    await axios.post("http://event-bus-srv:4005/events", {
+    console.log("sending msg to http://event-bus-svc:4005/events");
+    console.log("With status", status);
+    await axios.post("http://event-bus-svc:4005/events", {
       type: "commentModerated",
       data: {
         id: data.id,
